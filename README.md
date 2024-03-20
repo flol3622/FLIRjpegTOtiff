@@ -30,7 +30,7 @@ Enhance your photogrammetry workflow in Metashape by visualizing IR values:
 1. Begin with your standard workflow in Metashape.
 2. To visualize IR values:
    - Navigate to `Tools > Set Raster Transform...`.
-   - In the `Transform tab`, add B4 into the first output band.
+   - In the `Transform tab`, add `B4/10` into the first output band.
    - In the `Palette tab`, select the "heat" colormap for band B1.
    - Click `↻ update > Auto > Apply` to apply changes.✅
 
