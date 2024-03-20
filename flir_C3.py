@@ -5,8 +5,6 @@ import numpy as np
 import os.path
 from matplotlib import pyplot as plt
 from flir_image_extractor import FlirImageExtractor
-import subprocess
-
 
 class FlirC3(FlirImageExtractor):
     def __init__(self, exiftool_path="exiftool", is_debug=False):
@@ -51,27 +49,26 @@ class FlirC3(FlirImageExtractor):
 
     def save_images_crop_resize(self, path_save=None):
         # Setup filenames
-        fileName = os.path.basename(self.flir_img_filename)
-        fileNameRGB = path_save + "/0_rgb/" + fileName[:-4] + ".tiff"
-        fileNameIR = path_save + "/1_ir/" + fileName[:-4] + ".tiff"
+        if path_save is None:
+            fn_prefix, _ = os.path.splitext(self.flir_img_filename)
+            save_fileName = fn_prefix + "_hyperspectral.tiff"
+        else:
+            fileName = os.path.basename(self.flir_img_filename)
+            save_fileName = os.path.join(path_save, fileName)
+            save_fileName = os.path.splitext(save_fileName)[0] + ".tiff"
 
         # Ensure the save directory exists
-        if not os.path.exists(os.path.dirname(fileNameRGB)):
-            os.makedirs(os.path.dirname(fileNameRGB))
-        if not os.path.exists(os.path.dirname(fileNameIR)):
-            os.makedirs(os.path.dirname(fileNameIR))
+        if not os.path.exists(os.path.dirname(save_fileName)):
+            os.makedirs(os.path.dirname(save_fileName))
 
         # Convert RGB to correct color format if necessary
         rgb_corrected = cv2.cvtColor(self.rgb_cropped, cv2.COLOR_BGR2RGB)
 
-        rgb_float = np.array(rgb_corrected, dtype=np.float16)
-        thermal_scaled = self.thermal_resized * 10
-        cv2.imwrite(fileNameRGB, rgb_float)
-        cv2.imwrite(fileNameIR, thermal_scaled.astype(np.uint16))
-
-        # add metadate with exiftool
-        xmp_file = "IR.xmp"
-        subprocess.run([self.exiftool_path, "-overwrite_original", "-xmp<=" + xmp_file, fileNameIR])
+        rgb_int = np.array(rgb_corrected, dtype=np.float16)
+        thermal_float = self.thermal_resized.astype(np.float16)
+        hyperspectral_image = np.dstack((rgb_int, thermal_float*10))
+        cv2.imwrite(save_fileName, hyperspectral_image,
+                    [cv2.IMWRITE_TIFF_COMPRESSION, 1])
 
 
 def main():
@@ -82,7 +79,7 @@ def main():
         fir = FlirC3()
         fir.process_image(filename)
         fir.cropped_and_resized()
-        fir.save_images_crop_resize("metashape")
+        fir.save_images_crop_resize("multispectral/")
         remaining_files = total_files - (index + 1)
         print(f"Processed {filename}. Remaining files: {remaining_files}")
 
