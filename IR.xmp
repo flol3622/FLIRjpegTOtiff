@@ -1,0 +1,10 @@
+<x:xmpmeta xmlns:x="adobe:ns:meta/">
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <rdf:Description rdf:about="" xmlns:FLIR="http://www.dji.com/FLIR/1.0/"
+    FLIR:BandName="IR"
+    FLIR:CentralWavelength="1000"
+    FLIR:WavelengthFWHM="4500">
+    </rdf:Description>
+</rdf:RDF>
+</x:xmpmeta>
+        
