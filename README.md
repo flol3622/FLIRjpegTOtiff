@@ -17,7 +17,7 @@ This tool enables the conversion of thermal images from FLIR cameras into TIFF f
 
 ### Standalone Version
 
-1. Download the [latest version of FLIRtoTIFF](https://github.com/flol3622/FLIRjpegTOtiff/releases/tag/latest).
+1. Download the [latest version of FLIRtoTIFF](https://github.com/flol3622/FLIRjpegTOtiff/releases/latest).
 2. Unzip the downloaded package.
 3. Move both `.exe` files into the folder with your FLIR `.jpg` images.
 4. Double-click `flir_C3.exe` to start the conversion process (note: startup may be slow).
