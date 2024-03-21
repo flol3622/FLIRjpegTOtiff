@@ -2,6 +2,9 @@
 
 Transform FLIR thermal images into a format suitable for photogrammetry with ease.
 
+![image (1)](https://github.com/flol3622/FLIRjpegTOtiff/assets/93721496/80bfa60e-43b6-4053-aff8-bbe392417dfb)
+
+
 ## Introduction
 
 This tool enables the conversion of thermal images from FLIR cameras into TIFF format, making them compatible with photogrammetry software. Designed for flexibility, it can be integrated into Python pipelines or used as standalone software.
